@@ -20,9 +20,10 @@ export default function EmployeeIndex({ employees, query, currentPage }) {
 
   // ฟังก์ชันสำหรับการค้นหา
   const handleSearch = (e) => {
-    e.preventDefault(); // ป้องกันการรีเฟรชหน้า
-    router.get('/employee', { search }); // ส่งคำค้นหาไปที่ URL
-  };
+    e.preventDefault();  // หยุดการโหลดหน้าใหม่เมื่อกดปุ่ม Submit
+    // ส่งค่า search ไปที่ route '/employee' เพื่อค้นหาพนักงาน
+    router.get('/employee', { search });
+};
 
   // ฟังก์ชันสำหรับจัดเรียงข้อมูล
   const handleSort = (column) => {

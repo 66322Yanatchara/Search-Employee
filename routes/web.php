@@ -6,6 +6,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+// เป็นเส้นทางใช้สำหรับเพิ่มข้อมูลพนักงานใหม่
 Route::get('/employee', [EmployeeController::class, 'index']);
 
 Route::get('/', function () {

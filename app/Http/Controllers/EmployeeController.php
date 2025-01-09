@@ -14,22 +14,25 @@ class EmployeeController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $request)  // ฟังก์ชัน index รับ Request จากผู้ใช้
     {
-        $query = $request->input('search');  //หาข้อความได้ทั้งชื่อหรือนามสกุล
+        $query = $request->input('search');  // รับค่าจากพารามิเตอร์ 'search' ที่ส่งมาจากผู้ใช้ (คำค้นหา)
+
+        // ค้นหาในฐานข้อมูลตาราง employees โดยดูว่ามี first_name หรือ last_name ที่ตรงกับคำค้นหาหรือไม่
         $employees = DB::table('employees')
-        ->where('first_name', 'like', '%' .$query. '%')
-        ->orWhere('last_name', 'like', '%' .$query. '%')
-        ->paginate(10);
-    
-        //  Log::info($employees);
-         
-         return Inertia::render('Employee/Index', [
-             'employees' => $employees,
-             'query' => $query,
-         ]);
-       
+            ->where('first_name', 'like', '%' . $query . '%') // ตรวจสอบว่าชื่อแรกมีคำที่คล้ายกับ query
+            ->orWhere('last_name', 'like', '%' . $query . '%') // หรือ นามสกุลมีคำที่คล้ายกับ query
+            ->paginate(10);  // แบ่งผลลัพธ์ออกเป็นหน้า หน้าละ 10 รายการ
+
+        // Log::info($employees);  // (ตัวอย่างโค้ดที่ถูกคอมเมนต์ไว้) ใช้สำหรับ debug ข้อมูล employees
+
+        // ส่งข้อมูล employees และ query ไปยังหน้า Employee/Index โดยใช้ Inertia.js 
+        return Inertia::render('Employee/Index', [
+            'employees' => $employees,  // ส่งข้อมูลพนักงานไปที่หน้าเว็บ
+            'query' => $query,          // ส่งคำค้นหาที่ผู้ใช้ป้อนไปที่หน้าเว็บ
+        ]);
     }
+
 
     /**
      * Show the form for creating a new resource.
